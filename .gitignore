@@ -1,0 +1,9 @@
+node_modules
+dist
+dist-ssr
+*.local
+.agents
+skills-lock.json
+.DS_Store
+.env
+.env.*
