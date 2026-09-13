@@ -26,7 +26,7 @@
   white-space: nowrap;
 }
 
-/* ── Holographic gradient sweep ── */
+/* ── Holographic gradient sweep (viewport-fixed so all letters share one gradient) ── */
 .holographic-text {
   background: linear-gradient(
     90deg,
@@ -40,7 +40,8 @@
     #ff0080 80%,
     #e0e0e0 100%
   );
-  background-size: 300% 100%;
+  background-size: 300vw 100%;
+  background-attachment: fixed;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -48,8 +49,8 @@
 }
 
 @keyframes holo-sweep {
-  0% { background-position: 0% center; }
-  100% { background-position: 300% center; }
+  0% { background-position: 0vw center; }
+  100% { background-position: 300vw center; }
 }
 
 /* ── Neon glow layer (sits behind the gradient text) ── */

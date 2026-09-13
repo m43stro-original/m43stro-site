@@ -169,8 +169,14 @@ function HeroSection() {
 
   return (
     <div ref={containerRef} className="relative" style={{ perspective: '800px' }}>
-      {/* Hero glow — pulsing radial behind text */}
-      <div className="absolute inset-0 flex items-center justify-center pointer-events-none" aria-hidden>
+      {/* Hero glow — pulsing radial behind text, delayed */}
+      <motion.div
+        className="absolute inset-0 flex items-center justify-center pointer-events-none"
+        aria-hidden
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 1.5, delay: 0.8, ease: [0.23, 1, 0.32, 1] }}
+      >
         <div
           className="w-[700px] h-[250px] rounded-full"
           style={{
@@ -179,20 +185,23 @@ function HeroSection() {
             filter: 'blur(50px)',
           }}
         />
-      </div>
+      </motion.div>
 
       {/* The hero container with periodic glitch + scan line */}
       <motion.div
         className="hero-container scan-line relative"
         style={{ rotateX, rotateY, transformStyle: 'preserve-3d' }}
       >
-        {/* Layer 1: Neon glow (behind) */}
-        <h1
+        {/* Layer 1: Neon glow (behind) — delayed so it doesn't spoil the entrance */}
+        <motion.h1
           className="display-title hero-glow-layer text-[clamp(3.5rem,15vw,13rem)] font-black absolute inset-0 pointer-events-none select-none"
           aria-hidden
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 1.2, delay: 1.0, ease: [0.23, 1, 0.32, 1] }}
         >
           M43STRO
-        </h1>
+        </motion.h1>
 
         {/* Layer 2: Holographic gradient (in front) with magnetic letters */}
         <h1 className="display-title text-[clamp(3.5rem,15vw,13rem)] font-black relative">
