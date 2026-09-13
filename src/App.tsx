@@ -99,7 +99,7 @@ function MagneticLetter({ char, index }: { char: string; index: number }) {
   return (
     <motion.span
       ref={ref}
-      className="hero-letter inline-block relative select-none"
+      className="hero-letter holographic-text inline-block relative select-none"
       style={{ x: springX, y: springY }}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
@@ -195,7 +195,7 @@ function HeroSection() {
         </h1>
 
         {/* Layer 2: Holographic gradient (in front) with magnetic letters */}
-        <h1 className="display-title holographic-text text-[clamp(3.5rem,15vw,13rem)] font-black relative">
+        <h1 className="display-title text-[clamp(3.5rem,15vw,13rem)] font-black relative">
           {HERO_LETTERS.map((letter, i) => (
             <MagneticLetter key={i} char={letter} index={i} />
           ))}
