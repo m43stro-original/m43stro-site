@@ -15,34 +15,179 @@
   ::-webkit-scrollbar-thumb:hover { background: rgba(255, 255, 255, 0.25); }
 }
 
-/* ── Hero text ── */
+/* ═══════════════════════════════════════════════
+   HERO TEXT — THE MAIN EVENT
+   ═══════════════════════════════════════════════ */
+
 .display-title {
   letter-spacing: -0.05em;
   line-height: 0.88;
   font-optical-sizing: auto;
+  white-space: nowrap;
 }
 
-/* Titanium gradient with animated shimmer sweep */
-.titanium-text {
+/* ── Holographic gradient sweep ── */
+.holographic-text {
   background: linear-gradient(
     90deg,
-    #9ca3af 0%,
-    #d1d5db 25%,
-    #ffffff 50%,
-    #d1d5db 75%,
-    #9ca3af 100%
+    #e0e0e0 0%,
+    #ff0080 12%,
+    #ff8c00 20%,
+    #ffffff 30%,
+    #00ff88 42%,
+    #00cfff 55%,
+    #7b68ee 68%,
+    #ff0080 80%,
+    #e0e0e0 100%
   );
-  background-size: 200% 100%;
+  background-size: 300% 100%;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  animation: shimmer 8s ease-in-out infinite;
+  animation: holo-sweep 5s linear infinite;
 }
 
-@keyframes shimmer {
-  0%, 100% { background-position: 200% center; }
-  50% { background-position: -200% center; }
+@keyframes holo-sweep {
+  0% { background-position: 0% center; }
+  100% { background-position: 300% center; }
 }
+
+/* ── Neon glow layer (sits behind the gradient text) ── */
+.hero-glow-layer {
+  -webkit-text-fill-color: initial;
+  color: rgba(255, 255, 255, 0.6);
+  text-shadow:
+    0 0 10px rgba(255, 255, 255, 0.4),
+    0 0 30px rgba(120, 80, 255, 0.35),
+    0 0 60px rgba(120, 80, 255, 0.2),
+    0 0 100px rgba(0, 200, 255, 0.15);
+  animation: neon-pulse 3s ease-in-out infinite alternate;
+}
+
+@keyframes neon-pulse {
+  0% {
+    text-shadow:
+      0 0 10px rgba(255, 255, 255, 0.4),
+      0 0 30px rgba(120, 80, 255, 0.35),
+      0 0 60px rgba(120, 80, 255, 0.2),
+      0 0 100px rgba(0, 200, 255, 0.15);
+  }
+  50% {
+    text-shadow:
+      0 0 15px rgba(255, 255, 255, 0.6),
+      0 0 40px rgba(0, 200, 255, 0.5),
+      0 0 80px rgba(0, 200, 255, 0.3),
+      0 0 120px rgba(255, 0, 128, 0.25),
+      0 0 180px rgba(255, 0, 128, 0.1);
+  }
+  100% {
+    text-shadow:
+      0 0 12px rgba(255, 255, 255, 0.5),
+      0 0 35px rgba(255, 0, 128, 0.4),
+      0 0 70px rgba(120, 80, 255, 0.3),
+      0 0 110px rgba(0, 255, 136, 0.2),
+      0 0 160px rgba(0, 200, 255, 0.1);
+  }
+}
+
+/* ── Glitch on individual letter hover ── */
+.hero-letter {
+  position: relative;
+  cursor: default;
+  transition: filter 0.15s ease;
+}
+
+.hero-letter::before,
+.hero-letter::after {
+  content: attr(data-char);
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0;
+  -webkit-text-fill-color: initial;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .hero-letter:hover::before {
+    color: #ff003c;
+    animation: glitch-r 0.25s steps(2) infinite;
+    opacity: 0.7;
+    clip-path: inset(15% 0 45% 0);
+  }
+
+  .hero-letter:hover::after {
+    color: #00e5ff;
+    animation: glitch-b 0.25s steps(3) infinite reverse;
+    opacity: 0.7;
+    clip-path: inset(55% 0 10% 0);
+  }
+
+  .hero-letter:hover {
+    filter: brightness(1.3);
+  }
+}
+
+@keyframes glitch-r {
+  0%   { transform: translate(-3px, 1px); }
+  25%  { transform: translate(3px, -2px); }
+  50%  { transform: translate(-2px, 2px); }
+  75%  { transform: translate(2px, -1px); }
+  100% { transform: translate(-3px, 1px); }
+}
+
+@keyframes glitch-b {
+  0%   { transform: translate(3px, -1px); }
+  25%  { transform: translate(-3px, 2px); }
+  50%  { transform: translate(2px, -2px); }
+  75%  { transform: translate(-2px, 1px); }
+  100% { transform: translate(3px, -1px); }
+}
+
+/* ── Periodic glitch on entire hero (every ~6s) ── */
+.hero-container {
+  animation: periodic-glitch 6s step-end infinite;
+}
+
+@keyframes periodic-glitch {
+  0%, 100% { transform: translate(0, 0); filter: none; }
+  16.5% { transform: translate(-2px, 1px) skewX(-0.5deg); filter: hue-rotate(20deg); }
+  16.8% { transform: translate(3px, -1px) skewX(0.8deg); filter: hue-rotate(-15deg) brightness(1.3); }
+  17.1% { transform: translate(-1px, 2px) skewX(-0.3deg); filter: hue-rotate(10deg); }
+  17.3% { transform: translate(0, 0); filter: none; }
+}
+
+/* ── Scan line sweeping over hero ── */
+.scan-line::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(0, 230, 255, 0.4) 20%,
+    rgba(255, 255, 255, 0.6) 50%,
+    rgba(0, 230, 255, 0.4) 80%,
+    transparent 100%
+  );
+  box-shadow: 0 0 15px 3px rgba(0, 200, 255, 0.3);
+  animation: scan-sweep 4s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 10;
+}
+
+@keyframes scan-sweep {
+  0%, 100% { top: -10%; opacity: 0; }
+  5% { opacity: 1; }
+  50% { top: 110%; opacity: 1; }
+  55% { opacity: 0; }
+  55.1% { top: -10%; }
+}
+
+/* ═══════════════════════════════════════════════
+   BACKGROUND & ATMOSPHERE
+   ═══════════════════════════════════════════════ */
 
 /* ── Noise grain overlay ── */
 .grain::before {
@@ -51,53 +196,43 @@
   inset: 0;
   z-index: 100;
   pointer-events: none;
-  opacity: 0.035;
+  opacity: 0.04;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   background-repeat: repeat;
   background-size: 256px 256px;
 }
 
-/* ── Ambient gradient blobs ── */
+/* ── Animated ambient blobs ── */
 @keyframes blob-drift-1 {
   0%, 100% { transform: translate(0, 0) scale(1); }
-  33% { transform: translate(30px, -50px) scale(1.1); }
-  66% { transform: translate(-20px, 30px) scale(0.95); }
+  33% { transform: translate(50px, -80px) scale(1.15); }
+  66% { transform: translate(-40px, 50px) scale(0.9); }
 }
 
 @keyframes blob-drift-2 {
   0%, 100% { transform: translate(0, 0) scale(1); }
-  33% { transform: translate(-40px, 20px) scale(1.05); }
-  66% { transform: translate(25px, -35px) scale(1.12); }
+  33% { transform: translate(-60px, 30px) scale(1.1); }
+  66% { transform: translate(45px, -55px) scale(1.2); }
 }
 
 @keyframes blob-drift-3 {
   0%, 100% { transform: translate(0, 0) scale(1.05); }
-  33% { transform: translate(20px, 40px) scale(0.9); }
-  66% { transform: translate(-30px, -20px) scale(1.1); }
+  33% { transform: translate(35px, 60px) scale(0.85); }
+  66% { transform: translate(-50px, -30px) scale(1.15); }
 }
 
-/* ── Glow pulse on hero ── */
+/* ── Hero glow pulse ── */
 @keyframes glow-pulse {
-  0%, 100% { opacity: 0.08; transform: scale(1); }
-  50% { opacity: 0.15; transform: scale(1.05); }
+  0%, 100% { opacity: 0.12; transform: scale(1); }
+  50% { opacity: 0.25; transform: scale(1.08); }
 }
 
-/* ── Stagger entrance ── */
-@keyframes fade-up {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-    filter: blur(8px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-    filter: blur(0);
-  }
-}
-
-.animate-fade-up {
-  animation: fade-up 800ms var(--ease-out) both;
+/* ── Floating particles ── */
+@keyframes float-particle {
+  0%, 100% { transform: translateY(0) translateX(0); opacity: 0; }
+  10% { opacity: 1; }
+  90% { opacity: 1; }
+  100% { transform: translateY(-100vh) translateX(20px); opacity: 0; }
 }
 
 /* ── Horizontal line grow ── */
@@ -111,7 +246,10 @@
   transform-origin: center;
 }
 
-/* ── Card hover effects ── */
+/* ═══════════════════════════════════════════════
+   SOCIAL CARDS
+   ═══════════════════════════════════════════════ */
+
 .social-card {
   position: relative;
   transition: transform 160ms var(--ease-out), box-shadow 200ms ease;
@@ -122,7 +260,7 @@
   transform: scale(0.97) !important;
 }
 
-/* Animated gradient border on hover */
+/* Animated gradient border */
 .social-card::before {
   content: '';
   position: absolute;
@@ -132,9 +270,10 @@
   background: linear-gradient(
     135deg,
     rgba(255, 255, 255, 0) 0%,
-    rgba(255, 255, 255, 0) 40%,
-    rgba(255, 255, 255, 0.15) 50%,
-    rgba(255, 255, 255, 0) 60%,
+    rgba(255, 255, 255, 0) 35%,
+    rgba(120, 80, 255, 0.3) 45%,
+    rgba(0, 200, 255, 0.3) 55%,
+    rgba(255, 255, 255, 0) 65%,
     rgba(255, 255, 255, 0) 100%
   );
   background-size: 300% 300%;
@@ -151,7 +290,7 @@
   100% { background-position: 300% 300%; }
 }
 
-/* ── Cursor spotlight ── */
+/* Cursor spotlight */
 .spotlight {
   position: relative;
   overflow: hidden;
@@ -160,10 +299,10 @@
 .spotlight::after {
   content: '';
   position: absolute;
-  width: 200px;
-  height: 200px;
+  width: 250px;
+  height: 250px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(255,255,255,0.06) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(120, 80, 255, 0.08) 0%, rgba(0, 200, 255, 0.04) 40%, transparent 70%);
   transform: translate(-50%, -50%);
   pointer-events: none;
   opacity: 0;
@@ -172,11 +311,12 @@
   top: var(--mouse-y, 50%);
 }
 
-/* ── Hover gating for touch ── */
 @media (hover: hover) and (pointer: fine) {
   .social-card:hover {
     transform: scale(1.02) translateY(-2px);
-    box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.5);
+    box-shadow:
+      0 20px 40px -15px rgba(0, 0, 0, 0.5),
+      0 0 30px -10px rgba(120, 80, 255, 0.15);
   }
 
   .social-card:hover::before {
@@ -189,27 +329,10 @@
   }
 }
 
-/* ── Letter reveal ── */
-@keyframes letter-reveal {
-  from {
-    clip-path: inset(0 100% 0 0);
-    opacity: 0;
-  }
-  to {
-    clip-path: inset(0 0 0 0);
-    opacity: 1;
-  }
-}
+/* ═══════════════════════════════════════════════
+   REDUCED MOTION
+   ═══════════════════════════════════════════════ */
 
-/* ── Floating particles (CSS only) ── */
-@keyframes float-particle {
-  0%, 100% { transform: translateY(0) translateX(0); opacity: 0; }
-  10% { opacity: 1; }
-  90% { opacity: 1; }
-  100% { transform: translateY(-100vh) translateX(20px); opacity: 0; }
-}
-
-/* ── Reduced motion ── */
 @media (prefers-reduced-motion: reduce) {
   *, ::before, ::after {
     animation-duration: 0.01ms !important;
@@ -217,8 +340,20 @@
     transition-duration: 0.01ms !important;
   }
 
-  .titanium-text {
+  .holographic-text {
     animation: none;
     background-position: 0% center;
+  }
+
+  .hero-container {
+    animation: none;
+  }
+
+  .hero-glow-layer {
+    animation: none;
+  }
+
+  .scan-line::after {
+    display: none;
   }
 }
